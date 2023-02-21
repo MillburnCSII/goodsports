@@ -19,7 +19,7 @@
     font-size: 6rem;
     font-weight: 100;
     display: flex;
-    /* justify-content: end;*/
+    justify-content: end;
     align-items: flex-end;
     padding-right: 5vw;
 }
@@ -40,36 +40,32 @@
     text-align: left;
     padding: 5vh;
     vertical-align: center;
+    color: black;
+    font-family: "Montserrat";
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.aboutustitle {
-    font-family: 'Montserrat', sans-serif;
-    color: #252A34;
-    height: 10%;
+.aboutustext h1 {
+    margin-bottom: 1rem;
 }
 
-.aboutusinfo1 {
-    font-family: 'Playfair Display', serif;
-    color: #252A34;
-    height: 10%;
-}
-
-.aboutusinfo2 {
-    font-family: 'Montserrat', sans-serif;
-    color: #444444;
-    height: 10%;
+.aboutustext h2 {
+    margin-bottom: 1rem;
 }
 
 .aboutusimage {
     padding: 3vw;
+    justify-content: center;
 }
 
 .aboutusimages {
     border: 1vw solid #989B37;
     height: 30vw;
     width: 30vw;
+    justify-self: center;
 }
-
 
 .nav {
     margin-top: 1rem;

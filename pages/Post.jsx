@@ -3,6 +3,7 @@ import styles from '../styles/styles.module.css'
 import { useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {useRouter} from 'next/router'
+import dynaumic from 'next/dynamic'
 
 export default function Post() {
     const router = useRouter();
@@ -21,7 +22,7 @@ export default function Post() {
 
     return (
         <>
-            <h1 className={styles.h1}>MAKE A POST</h1>
+            {/* <h1 className={styles.h1}>MAKE A POST</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title" />
@@ -33,7 +34,7 @@ export default function Post() {
                 <input type="file" id="image" name="image" />
                 <br></br>
                 <button type="submit">Submit</button>
-            </form>
+            </form> */}
         </>
     );
 }
