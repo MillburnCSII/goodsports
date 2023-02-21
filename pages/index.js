@@ -7,6 +7,7 @@ import Hero from '../components/Hero'
 import About from '../components/About'
 import Blogs from '../components/Blogs'
 import Events from '../components/Events'
+import Donate from '../components/Donate'
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
       <Nav />
       <Hero />
       <About />
-      <Blogs />
       <Events />
+      <Blogs />
+      <Donate />
     </>
  )
 }
