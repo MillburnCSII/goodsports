@@ -10,7 +10,6 @@ interface postProps {
   mdHTML: string | undefined;
 }
 
-
 interface dataProps {
   title: string;
   content: string;
@@ -25,11 +24,10 @@ export default function Post({ data, mdHTML }: postProps) {
 
   return (
     <>
-      <h1 
-        style={{"color": "black", "font-size": "5rem"}}>{data.title}</h1>
+      <h1 style={{ color: "black", fontSize: "5rem" }}>{data.title}</h1>
       <div
         className={styles.markdown}
-        dangerouslySetInnerHTML={{ __html:  mdHTML}}
+        dangerouslySetInnerHTML={{ __html: mdHTML }}
       />
     </>
   );
@@ -50,7 +48,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { pid: string } }) {
-  const docRef = doc(db, "Posts", "Test Post");
+  // const docRef = doc(db, "Posts", "Test Post");
+  const docRef = doc(db, "Posts", params.pid);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
@@ -59,8 +58,11 @@ export async function getStaticProps({ params }: { params: { pid: string } }) {
 
   const data = docSnap.data();
 
-  const processedMD = await remark().use(remarkGfm).use(html).process(data.content);
+  const processedMD = await remark()
+    .use(remarkGfm)
+    .use(html)
+    .process(data.content);
   const mdHTML = processedMD.toString();
-  
+
   return { props: { data, mdHTML } };
 }
