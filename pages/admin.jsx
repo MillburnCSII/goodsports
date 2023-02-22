@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { app, db, storage, auth } from "../firebaseConfig.js";
 import Router from "next/router.js";
+import styles from '../styles/styles.module.css';
 
 export default function Admin() {
     const [email, setEmail] = useState("");
@@ -30,8 +31,8 @@ export default function Admin() {
 
     return (
         <>
-            <h1>ADMIN</h1>
-            <form onSubmit={handleSubmit}>
+            <h1 className={styles.standardtext}>ADMIN</h1>
+            <form onSubmit={handleSubmit} className={styles.standardtext}>
                 <label htmlFor="email">Email</label>
                 <input type="text" id="email" name="email" onChange={e=>setEmail(e.target.value)} />
                 <br></br>

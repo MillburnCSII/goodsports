@@ -8,7 +8,7 @@ export default function Events() {
             <div className={styles.eventclass}>
                 <div className={styles.standardtext}>
                     <h1>Upcoming Events</h1> <hr className={styles.hr} />
-                    <h2>Yes</h2>
+                    <h2>Look out for our fundraising events at the high school!</h2>
 
                     <div className={styles.cardgrid}>
                         <div className={styles.card}>

@@ -1,96 +1,112 @@
 import React from "react";
-import styles from "../styles/styles.module.css";
+import styles from '../styles/styles.module.css'
 import { useEffect, useState } from "react";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { useRouter } from "next/router";
-// import dynamic from "next/dynamic";
-// import MDEditor from '@uiw/react-md-editor';
-import { auth } from "../firebaseConfig.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+import { auth, storage, db } from '../firebaseConfig.js'
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import "@uiw/react-md-editor/markdown-editor.css";
-// import "@uiw/react-markdown-preview/markdown.css";
-// import mdsource from "next-remove-imports/README.md"
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 
-// import MDEditor from "@uiw/react-md-editor";
+const MarkdownEditor = dynamic(
+    () => import("@uiw/react-md-editor").then((mod) => mod.default),
+    { ssr: false }
+);
 
-// const fetch = (...args) => import('@uiw/react-md-editor').then(({default: fetch}) => fetch(...args));
+export default function Post() {
+    const router = useRouter();
+    const [text, setText] = useState("");
+    const [file, setFile] = useState();
+    const [title, setTitle] = useState("");
 
+    async function uploadTask(e) {
+        e.preventDefault();
+        await setDoc(doc(db, "Posts", title), {
+            title: title,
+            content: text
+        }).then((res) => {
+            console.log("Document written with ID: ", res);
+            alert("Post created! :D")
+            router.push("/");
+        }
+        ).catch((error) => {
+            console.error("Error adding document: ", error);
+        }
+        );
+      }
 
-// const MarkdownEditor = dynamic(
-//   () => import("@uiw/react-md-editor").then((mod) => mod.default),
-//   { ssr: false }
-// );
+    function uploadImage(e) {
+        e.preventDefault();
+        // get the name of the file
+        var x = file.name;
+        const storageRef = ref(storage, `/files/${x}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-// const MarkdownPreview = dynamic(
-//   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
-//   { ssr: false }
-// );
-
-export default function create_post() {
-  const [html, setHTML] = useState(<></>);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [file, setFile] = useState();
-  const [value, setValue] = useState("**Hello World**");
-  const router = useRouter();
-  // const [othertext, setOtherText] = useState("Hello World");
-
-  
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("submit");
-  }
-
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // return (
-      //   <>
-      //     <button
-      //       onClick={() => {
-      //         auth.signOut();
-      //         router.push("/admin");
-      //       }}
-      //     >
-      //       Log Out
-      //     </button>
-      //     <h1 className={styles.h1}>MAKE A POST</h1>
-      //     {/* <form onSubmit={handleSubmit}>
-      //                   <label htmlFor="title">Title</label>
-      //                   <input type="text" id="title" name="title" onChange={e=>setTitle(e.target.value)}/>
-      //                   <br></br>
-      //                   <label htmlFor="content">Content</label>
-      //                   <textarea id="content" name="content" onChange={e=>setContent(e.target.value)}/>
-      //                   <br></br>
-      //                   <label htmlFor="image">Image</label>
-      //                   <input type="file" id="image" name="image" onChange={e=>setFile(e.target.files[0])} />
-      //                   <br></br>
-      //                   <button type="submit">Submit</button>
-      //               </form> */}
-
-      //       <textarea value={value} onChange={e => setValue(e.target.value)} />
-      //   </>
-      // );
-
-      setHTML(
-        <textarea value={value} onChange={e => setValue(e.target.value)} />
-      )
-    } else {
-      typeof window !== "undefined" && router.push("/admin");
-      return (
-        <>
-          You are not logged in, please log in to continue. <br></br>
-          If the automatic redirect does not work, please click{" "}
-          <a href="./admin">here</a>
-        </>
-      );
+        uploadTask.on("state_changed", (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+                case "paused":
+                    console.log("Upload is paused");
+                    break;
+                case "running":
+                    console.log("Upload is running");
+                    break;
+            }
+        }, (error) => {
+            console.error(error);
+        }, () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                navigator.clipboard.writeText(url).then((res) => alert("copied + " + url + " to clipboard"));
+            });
+        });
     }
-  });
 
-  return html;
+    
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                router.push('/admin')
+            }
+        });
+    }, [])
+    
+
+    return (
+        <>
+            <button
+                onClick={() => {
+                auth.signOut();
+                router.push("/admin");
+                }}
+            >Log Out</button>
+            
+            <h1 style = {{"color": "black"}}>MAKE A POST</h1>
+            
+            <h2 style = {{"color": "black"}}>Upload images</h2>
+            <form onSubmit = {uploadImage}>
+                <br></br>
+                <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+                <br></br>
+                <br></br>
+                <button type="submit">Upload</button>
+            </form>
+            <br></br>
+
+
+            <form onSubmit={uploadTask}>
+                <label for = "title">Title</label>
+                <input type="text" onChange={(e) => setTitle(e.target.value)} />
+                <br></br>
+                <br></br>
+                <MarkdownEditor value={text} onChange={setText} data-color-mode="light" />
+                <br></br>
+                <button type="submit">Submit</button>
+            </form>
+        </>
+    );
 }
