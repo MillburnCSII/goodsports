@@ -6,19 +6,53 @@ import Link from 'next/link'
 export default function Donate() {
     return (
         <>
-            <div className={styles.donateclass}>
-                <div className={styles.linktitle}>
-                    <h1>Donate</h1> <hr className={styles.hr} />
-                    <Link href="https://paypal.com/" target="_blank" className={styles.linktext}>
-                        <h3> Paypal </h3>
-                    </Link>
-                    <Link href="https://venmo.com/" target="_blank" className={styles.linktext}>
-                        <h3> Venmo </h3>
-                    </Link>
-                    <Link href="https://zellepay.com/" target="_blank" className={styles.linktext}>
-                        <h3> Zelle </h3>
-                    </Link>
-                 </div>
+            <div className={styles.donatey}>
+                <h2>Be a part of the Cause</h2>
+                <h1>Donate Now</h1>
+                <div className={[styles.cardgrid, styles.donategrid].join(" ")}>
+                    <div className={[styles.card, styles.donate].join(" ")}>
+                        <img src="https://source.unsplash.com/random/" />
+                        <h2>Category 2</h2>
+                        <h1>Soccer for All!</h1>
+                        <div className={styles.sliderWrapper}>
+                            <div className={styles.outsideSlider}>
+                                <div className={styles.insideSlider} style={{"width": "50%"}}></div>
+                            </div>
+                            <p>50%</p>
+                        </div>
+                        <div className={styles.donateBtnWrapper}>
+                            <button>Donate Now</button>
+                        </div>
+                    </div>
+                    <div className={[styles.card, styles.donate].join(" ")}>
+                        <img src="https://source.unsplash.com/random/?asd=2" />
+                        <h2>Category 1</h2>
+                        <h1>Flag football in rural areas</h1>
+                        <div className={styles.sliderWrapper}>
+                            <div className={styles.outsideSlider}>
+                                <div className={styles.insideSlider} style={{"width": "50%"}}></div>
+                            </div>
+                            <p>50%</p>
+                        </div>
+                        <div className={styles.donateBtnWrapper}>
+                            <button>Donate Now</button>
+                        </div>
+                    </div>
+                    <div className={[styles.card, styles.donate].join(" ")}>
+                        <img src="https://source.unsplash.com/random/?er=2" />
+                        <h2>Category 2</h2>
+                        <h1>Baseball</h1>
+                        <div className={styles.sliderWrapper}>
+                            <div className={styles.outsideSlider}>
+                                <div className={styles.insideSlider} style={{"width": "50%"}}></div>
+                            </div>
+                            <p>50%</p>
+                        </div>
+                        <div className={styles.donateBtnWrapper}>
+                            <button>Donate Now</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

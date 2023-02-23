@@ -15,8 +15,8 @@ export default function Home() {
       <Nav />
       <Hero />
       <About />
-      <Events />
       <Blogs />
+      {/* <Events /> */}
       <Donate />
     </>
  )

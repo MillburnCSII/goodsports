@@ -11,9 +11,6 @@ export default function Nav() {
             <Link href="/#">
                 <Image alt="back to top" src="/logo.jpg" width={60} height={60} className={styles.navImage}/>
             </Link>
-            <Link href="https://www.instagram.com/" target="_blank">
-                <FaInstagram className={styles.navicon} size={40} />
-            </Link>
         </div>
     );
 }
