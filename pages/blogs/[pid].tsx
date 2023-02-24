@@ -19,12 +19,17 @@ export default function Post({ data, mdHTML }: postProps) {
         return <h1>404</h1>;
     }
 
-    //console.log(props)
+    console.log(mdHTML)
+    console.log(data)
 
     return (
         <>
-            <h1 style={{ color: "black", fontSize: "5rem" }}>{data.title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+            <main className="flex justify-center">
+                <article className="prose p-8 w-[80vw] !block">
+                    <h1>{data.title}</h1>
+                    <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
+                </article>
+            </main>
         </>
     );
 }
@@ -44,8 +49,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { pid: string } }) {
-    // const docRef = doc(db, "Posts", "Test Post");
-    const docRef = doc(db, "Posts", params.pid);
+    const docRef = doc(db, "blog", params.pid);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -58,7 +62,13 @@ export async function getStaticProps({ params }: { params: { pid: string } }) {
         .use(remarkGfm)
         .use(html)
         .process(data.content);
+
     const mdHTML = processedMD.toString();
+
+    console.log("mdHTML");
+    console.log(mdHTML);
+
+    data.date = data.date.toDate().getTime();
 
     return { props: { data, mdHTML } };
 }

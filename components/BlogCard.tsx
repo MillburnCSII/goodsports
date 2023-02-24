@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { UserIcon, CalendarDaysIcon } from "@heroicons/react/20/solid";
 import removeMarkdownAndHtml from "remove-markdown-and-html";
 import { useCallback, useEffect, useState } from "react";
@@ -14,30 +15,6 @@ interface blogprops {
 }
 
 export default function BlogCard(props: { post: blogprops }) {
-    const sampley = useCallback(() => {
-        const filtered = removeMarkdownAndHtml(props.post.content);
-
-        let segmenter;
-
-        if (Intl.Segmenter === undefined) {
-            // BECAUSE FUCKING FIREFOX DOESN'T SUPPORT IT
-            const regex = /(.+?([A-Z].)[\.|\?|\!](?:['")\\\s]?)+?\s?)/gim;
-            const sentences = filtered.match(regex);
-            return sentences[1] + sentences[2].slice(0, -3) + "...";
-        } else {
-            segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
-            const iterator1 = segmenter.segment(filtered)[Symbol.iterator]();
-            iterator1.next();
-            const sentence2 = iterator1.next();
-            const sentence3 = iterator1.next();
-
-            return (
-                sentence2.value.segment +
-                sentence3.value.segment.slice(0, -3) +
-                "..."
-            );
-        }
-    }, [props.post.content]);
 
     const [date, setDate] = useState("Loading...");
 
@@ -48,8 +25,29 @@ export default function BlogCard(props: { post: blogprops }) {
     const [sample, setSample] = useState("Loading...");
 
     useEffect(() => {
-        setSample(sampley());
-    }, [sample, sampley]);
+        const filtered = removeMarkdownAndHtml(props.post.content);
+
+        let segmenter;
+
+        if (Intl.Segmenter === undefined) {
+            // BECAUSE FUCKING FIREFOX DOESN'T SUPPORT IT
+            const regex = /(.+?([A-Z].)[\.|\?|\!](?:['")\\\s]?)+?\s?)/gim;
+            const sentences = filtered.match(regex);
+            setSample(sentences[1] + sentences[2] ? sentences[2].slice(0, -3) : "" + "...");
+        } else {
+            segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+            const iterator1 = segmenter.segment(filtered)[Symbol.iterator]();
+            iterator1.next();
+            const sentence2 = iterator1.next();
+            const sentence3 = iterator1.next();
+
+            setSample(
+                sentence2.value.segment +
+                sentence3.value.segment.slice(0, -3) +
+                "..."
+            );
+        }
+    }, [sample, props.post.content]);
 
     return (
         <div
@@ -84,9 +82,9 @@ export default function BlogCard(props: { post: blogprops }) {
                     </p>
                 </div>
                 <div>
-                    <button className="border-primary text-primary border-2 rounded-md px-6 py-2 hover:bg-primary hover:text-white transition-all">
+                    <Link href={`/blogs/${props.post.id}`} className="border-primary text-primary border-2 rounded-md px-6 py-2 hover:bg-primary hover:text-white transition-all">
                         Read More
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

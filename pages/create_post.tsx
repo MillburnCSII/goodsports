@@ -202,7 +202,7 @@ export default function Post() {
                 </div>
                 <MarkdownEditor
                     value={text}
-                    onChange={setText}
+                    onChange={(e) => {setText(e); console.log(e)}}
                     data-color-mode="light"
                     textareaProps={{
                         placeholder: "Write the body of your post here!",

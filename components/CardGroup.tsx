@@ -18,7 +18,8 @@ export default function CardGroup(props: {
     const step = (1 / 6) * 100;
 
     const handleIncrement = () => {
-        if (offset >= 49) return alert("over!");
+        const cap = step*(props.data.length - 3);
+        if (offset >= cap) return alert("over!");
         setOffset(offset + step);
         setStyle({ transform: `translateX(${-(offset + step)}%)` });
     };
@@ -50,7 +51,7 @@ export default function CardGroup(props: {
                         <button
                             className="bg-primary text-secondary h-12 w-12 rounded-full focus-within:ring-primary focus-within:ring-2 focus-within:ring-offset-2 transition-all p-2 flex justify-center items-center  disabled:bg-gray-500 disabled:text-gray-300"
                             onClick={handleIncrement}
-                            disabled={offset >= 49}
+                            disabled={offset >= step*(props.data.length - 3)}
                         >
                             <ChevronRightIcon />
                         </button>
