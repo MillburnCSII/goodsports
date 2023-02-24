@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { app, db, storage, auth } from "../firebaseConfig.js";
 import Router from "next/router.js";
-import styles from '../styles/styles.module.css';
 import { getFirestore, collection, setDoc, doc, getDocs } from "firebase/firestore";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
@@ -38,11 +37,11 @@ export default function Blogs() {
                 console.log(mdHTML + " " + id);
                 
                 blogsArray.push(
-                    [blog.title, <div>
-                        <div key={id} style = {{ "backgroundColor": "grey" }}>
+                    [blog.title, 
+                    <div key={id}>
+                        <div>
                             <h2>{blog.title}</h2>
                             <div
-                                className={styles.markdown}
                                 dangerouslySetInnerHTML={{ __html: mdHTML }}
                             />
                         </div>
