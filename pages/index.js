@@ -11,9 +11,9 @@ import Donate from "../components/Donate.tsx";
 export default function Home() {
     return (
         <>
-            <Nav />
+            {/* <Nav />
             <Hero />
-            <About />
+            <About /> */}
             <Blogs />
             {/* <Events /> */}
             <Donate />
