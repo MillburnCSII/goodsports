@@ -46,10 +46,6 @@ interface stupidTs2 {
 }
 
 export default function Home(props) {
-    //         title: "5k Run in the Wind",
-    //         author: "Floyd Miles",
-    //         date: "31 Oct 2021",
-
     //         title: "Boston Marathon",
     //         author: "Henry Rollock",
     //         date: "12 Jan 2021",
@@ -73,13 +69,12 @@ export default function Home(props) {
                 card={BlogCard}
                 data={props.blogData}
             />
-            {/* DONATE */}
-            {/* <CardGroup 
+            <CardGroup /* DONATE */
                 title="Donate Now"
                 subtitle="Be a part of the Cause"
                 card={DonateCard}
                 data={props.donateData}
-            /> */}
+            />
         </>
     );
 }

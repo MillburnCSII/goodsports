@@ -14,7 +14,11 @@ module.exports = removeImports({
         return config;
     },
     images: {
-        domains: ["source.unsplash.com", "unsplash.com"],
+        domains: [
+            "source.unsplash.com",
+            "unsplash.com",
+            "firebasestorage.googleapis.com",
+        ],
     },
     reactStrictMode: true,
 });

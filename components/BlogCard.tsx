@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { UserIcon, CalendarDaysIcon } from "@heroicons/react/20/solid";
 import removeMarkdownAndHtml from "remove-markdown-and-html";
+import { useCallback, useEffect, useState } from "react";
 
 interface blogprops {
     id: number;
@@ -13,17 +14,42 @@ interface blogprops {
 }
 
 export default function BlogCard(props: { post: blogprops }) {
-    const getSample = () => {
+    const sampley = useCallback(() => {
         const filtered = removeMarkdownAndHtml(props.post.content);
 
-        const segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+        let segmenter;
 
-        const iterator1 = segmenter.segment(filtered)[Symbol.iterator]();
-        const sentence1 = iterator1.next();
-        const sentence2 = iterator1.next();
+        if (Intl.Segmenter === undefined) {
+            // BECAUSE FUCKING FIREFOX DOESN'T SUPPORT IT
+            const regex = /(.+?([A-Z].)[\.|\?|\!](?:['")\\\s]?)+?\s?)/gim;
+            const sentences = filtered.match(regex);
+            return sentences[1] + sentences[2].slice(0, -3) + "...";
+        } else {
+            segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+            const iterator1 = segmenter.segment(filtered)[Symbol.iterator]();
+            iterator1.next();
+            const sentence2 = iterator1.next();
+            const sentence3 = iterator1.next();
 
-        return sentence1.value + sentence2.value + "...";
-    };
+            return (
+                sentence2.value.segment +
+                sentence3.value.segment.slice(0, -3) +
+                "..."
+            );
+        }
+    }, [props.post.content]);
+
+    const [date, setDate] = useState("Loading...");
+
+    useEffect(() => {
+        setDate(new Date(props.post.date).toLocaleDateString());
+    }, [date, props.post.date]);
+
+    const [sample, setSample] = useState("Loading...");
+
+    useEffect(() => {
+        setSample(sampley());
+    }, [sample, sampley]);
 
     return (
         <div
@@ -47,16 +73,14 @@ export default function BlogCard(props: { post: blogprops }) {
                         </div>
                         <div className="flex gap-2 items-start">
                             <CalendarDaysIcon className="h-6 w-6" />
-                            <h2>
-                                {new Date(props.post.date).toLocaleDateString()}
-                            </h2>
+                            <h2>{date}</h2>
                         </div>
                     </div>
                     <h1 className="text-primary font-serif text-2xl">
                         {props.post.title}
                     </h1>
                     <p className="text-sm text-gray-500">
-                        {props.post.description || getSample()}
+                        {props.post.description || sample}
                     </p>
                 </div>
                 <div>

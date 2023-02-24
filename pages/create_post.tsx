@@ -56,10 +56,7 @@ export default function Post() {
             content: text,
         };
 
-        await setDoc(doc(db, "Posts", parsedTitle), {
-            title: title,
-            content: text,
-        })
+        await setDoc(doc(db, "blog", parsedTitle), newDoc)
             .then((res) => {
                 console.log("Document written with ID: ", res);
                 alert("Post created! :D");
@@ -210,6 +207,7 @@ export default function Post() {
                     textareaProps={{
                         placeholder: "Write the body of your post here!",
                     }}
+                    height={500}
                 />
 
                 <button
