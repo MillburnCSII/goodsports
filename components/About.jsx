@@ -9,20 +9,18 @@ export default function About() {
                     <div className="relative h-full w-full">
                         <div className="absolute w-[80%] aspect-square">
                             <Image
-                                className="border-primary border-8"
+                                className="border-primary border-8 object-cover"
                                 alt=""
                                 src="https://source.unsplash.com/random/?about=1"
-                                layout="fill"
-                                objectFit="cover"
+                                fill={true}
                             />
                         </div>
                         <div className="absolute w-[40%] aspect-square bottom-0 right-0">
                             <Image
-                                className="border-primary border-8 z-10"
+                                className="border-primary border-8 object-cover"
                                 alt=""
-                                src="https://source.unsplash.com/random/?about=1"
-                                layout="fill"
-                                objectFit="cover"
+                                src="https://source.unsplash.com/random/?z=1"
+                                fill={true}
                             />
                         </div>
                     </div>
