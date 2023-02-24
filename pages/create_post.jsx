@@ -30,7 +30,8 @@ export default function Post() {
     const parsedTitle = title // Make the title url safe
       .replace(/\s+/g, "-") // Replace spaces with -
       .toLowerCase() // Convert to lowercase
-      .replace(/[^a-z0-9-]/g, ""); // Remove all remaining unsafe chars
+      .replace(/[^a-z0-9-]/g, "") // Remove all remaining unsafe chars
+      .replace(/--+/g, "-") // Replace multiple - with single -
 
     await setDoc(doc(db, "Posts", parsedTitle), {
       title: title,

@@ -14,7 +14,7 @@ module.exports = removeImports({
         return config;
     },
     images: {
-        domains: ["source.unsplash.com"],
+        domains: ["source.unsplash.com", "unsplash.com"],
     },
     reactStrictMode: true,
 });

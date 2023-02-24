@@ -36,7 +36,7 @@ export default function DonateCard(props: { post: goalpost }) {
                 </div>
                 <div>
                     <div className="flex my-4 gap-4">
-                        <div className="w-full bg-secondary rounded-full">
+                        <div className="w-full bg-secondary rounded-full overflow-hidden">
                             <div
                                 className="rounded-full bg-primary h-full"
                                 style={{
