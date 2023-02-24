@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../styles/styles.module.css";
 import { useEffect, useState } from "react";
 import {
   getAuth,

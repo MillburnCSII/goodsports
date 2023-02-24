@@ -1,4 +1,4 @@
-const removeImports = require('next-remove-imports')()
+const removeImports = require("next-remove-imports")();
 
 // /** @type {import('next').NextConfig} */
 // const nextConfig = {
@@ -6,11 +6,15 @@ const removeImports = require('next-remove-imports')()
 // }
 
 module.exports = removeImports({
-  webpack: (config, options) => {
-    config.module.rules.push({
-      test: /\.md$/,
-      use: 'raw-loader',
-    })
-    return config
-  },
-})
+    webpack: (config, options) => {
+        config.module.rules.push({
+            test: /\.md$/,
+            use: "raw-loader",
+        });
+        return config;
+    },
+    images: {
+        domains: ["source.unsplash.com"],
+    },
+    reactStrictMode: true,
+});
