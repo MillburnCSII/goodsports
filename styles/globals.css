@@ -4,8 +4,15 @@
 
 html {
     scroll-behavior: smooth !important;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 html * {
     scroll-behavior: smooth !important;
+    /* outline: 1px solid red !important; */
 }
+
+/* * ::-webkit-scrollbar {
+    display: none;
+  } */

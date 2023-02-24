@@ -110,7 +110,7 @@ export default function Post() {
                 router.push("/admin");
             }
         });
-    }, []);
+    });
 
     return (
         <main className="p-8">

@@ -7,12 +7,13 @@ export default function CardGroup(props: {
     data: any;
     card: any;
 }) {
-    if (props.data.length === 0) return <h1>404 No Data</h1>;
 
     const [offset, setOffset] = useState(0);
     const [style, setStyle] = useState({
         transform: `translateX(${offset}%)`,
     });
+
+    if (props.data.length === 0) return <h1>404 No Data</h1>;
 
     const step = (1 / 6) * 100;
 

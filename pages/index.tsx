@@ -1,11 +1,11 @@
 import { collection, getDocs, query, limit } from "firebase/firestore";
 import { db } from "../firebaseConfig.js";
-import Nav from "../components/Nav.tsx";
+import Nav from "../components/Nav";
 import Hero from "../components/Hero.jsx";
 import About from "../components/About.jsx";
-import CardGroup from "../components/CardGroup.tsx";
-import DonateCard from "../components/DonateCard.tsx";
-import BlogCard from "../components/BlogCard.tsx";
+import CardGroup from "../components/CardGroup";
+import DonateCard from "../components/DonateCard";
+import BlogCard from "../components/BlogCard";
 
 interface goalProject {
     id: string;
@@ -60,9 +60,9 @@ export default function Home(props) {
 
     return (
         <>
-            {/* <Nav />
+            <Nav />
             <Hero />
-            <About /> */}
+            <About />
             <CardGroup /* BLOG */
                 title="Our Most Recent Blogs"
                 subtitle="Latest Blogs"

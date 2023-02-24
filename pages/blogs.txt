@@ -74,3 +74,23 @@ export default function Blogs() {
         </>
     );
 }
+
+export async function getStaticProps({ params }: { params: { pid: string } }) {
+    // const docRef = doc(db, "Posts", "Test Post");
+    const docRef = doc(db, "Posts", params.pid);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+        return { props: { data: null } };
+    }
+
+    const data = docSnap.data();
+
+    const processedMD = await remark()
+        .use(remarkGfm)
+        .use(html)
+        .process(data.content);
+    const mdHTML = processedMD.toString();
+
+    return { props: { data, mdHTML } };
+}

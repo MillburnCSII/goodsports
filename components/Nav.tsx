@@ -14,7 +14,7 @@ export default function Nav() {
     ];
 
     return (
-        <nav className="fixed top-0 left-0 w-screen bg-primary px-40 py-4 flex items-center justify-between z-50">
+        <nav className="fixed top-0 left-0 w-screen bg-primary lg:px-40 py-4 flex items-center justify-between z-50 px-20">
             <div className="flex items-center">
                 <Link
                     href="/#"
@@ -22,7 +22,7 @@ export default function Nav() {
                 >
                     <LogoCircle />
                 </Link>
-                <div className="flex gap-2 mx-8">
+                <div className="hidden sm:flex gap-2 mx-8">
                     {socials.map((social) => (
                         <Link
                             href="/#"
@@ -44,9 +44,9 @@ export default function Nav() {
                 <button className="p-1">
                     <Bars3Icon className="h-6 w-6 text-white" />
                 </button>
-                <button className="p-1">
+                {/* <button className="p-1">
                     <MagnifyingGlassIcon className="h-6 w-6 text-white" />
-                </button>
+                </button> */}
             </div>
         </nav>
     );
