@@ -13,7 +13,7 @@ export default function GenericInput(props: bruh) {
         <div>
             <label
                 htmlFor={props.label}
-                className="block text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-gray-700"
             >
                 {props.label}
             </label>
@@ -24,7 +24,7 @@ export default function GenericInput(props: bruh) {
                     id={props.label}
                     value={props.value}
                     onChange={(e) => props.onChange(e.target.value)}
-                    className={`shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md ${props.className}`}
+                    className={`shadow-sm focus:ring-primary focus:border-primary sm:text-sm border-gray-300 rounded-md ${props.className}`}
                     placeholder={props.placeholder}
                     required={props.required}
                 />
