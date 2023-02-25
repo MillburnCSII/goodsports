@@ -39,11 +39,11 @@ export default function ImageUploadModal({ files, setFiles }) {
         }
     }, [files, currentImage]);
 
-    const confirmImage = (currentImage) => {
+    const confirmImage = (currentImage: number) => {
         uploadImage(currentImage);
     };
 
-    const uploadImage = async (index) => {
+    const uploadImage = async (index: number) => {
         // e.preventDefault();
         // get the name of the file
         const file = files[index];
