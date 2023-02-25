@@ -69,12 +69,12 @@ export default function Home(props) {
                 card={BlogCard}
                 data={props.blogData}
             />
-            <CardGroup /* DONATE */
+            { /* <CardGroup *//* DONATE *//*
                 title="Donate Now"
                 subtitle="Be a part of the Cause"
                 card={DonateCard}
                 data={props.donateData}
-            />
+            /> */ }
         </>
     );
 }

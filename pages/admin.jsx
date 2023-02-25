@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig.js";
 import Router from "next/router.js";
-import GenericInput from "../components/Generic/GenericInput";
-import GenericButton from "../components/Generic/GenericButton";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
+import Nav from "../components/Nav";
 
 export default function Admin() {
     const [email, setEmail] = useState("");
@@ -35,6 +34,7 @@ export default function Admin() {
 
     return (
         <>
+            <Nav />
             <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>

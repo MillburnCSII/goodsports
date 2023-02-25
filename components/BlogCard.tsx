@@ -69,11 +69,11 @@ export default function BlogCard(props: { post: blogprops }) {
                 <div className="flex gap-2 flex-col mb-2">
                     <div className="grid grid-cols-2 gap-4 text-gray-500 text-sm">
                         <div className="flex gap-2 items-start">
-                            <UserIcon className="h-6 w-6" />
+                            <UserIcon className="h-6 w-6 hidden sm:block" />
                             <h2>{props.post.author}</h2>
                         </div>
                         <div className="flex gap-2 items-start">
-                            <CalendarDaysIcon className="h-6 w-6" />
+                            <CalendarDaysIcon className="h-6 w-6 hidden sm:block" />
                             <h2>{date}</h2>
                         </div>
                     </div>

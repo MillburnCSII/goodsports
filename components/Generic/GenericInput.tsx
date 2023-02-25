@@ -24,7 +24,7 @@ export default function GenericInput(props: bruh) {
                     id={props.label}
                     value={props.value}
                     onChange={(e) => props.onChange(e.target.value)}
-                    className={`shadow-sm focus:ring-primary focus:border-primary sm:text-sm border-gray-300 rounded-md ${props.className}`}
+                    className={`shadow-sm focus:ring-primary focus:border-primary sm:text-sm border-gray-300 rounded-md sm:min-w-0 min-w-full sm:w-auto w-0 ${props.className}`}
                     placeholder={props.placeholder}
                     required={props.required}
                 />

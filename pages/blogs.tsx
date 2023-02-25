@@ -53,7 +53,7 @@ export default function Blogs({ blogs }) {
     return (
         <>
             <Nav position="sticky" />
-            <main className="px-24 py-12">
+            <main className="px-12 sm:px-24 py-12">
                 <div className="max-w-lg w-full lg:max-w-xs">
                     <label htmlFor="search" className="sr-only">
                         Search
@@ -79,7 +79,7 @@ export default function Blogs({ blogs }) {
                 <h2 className="my-8 text-gray-700 text-sm">
                     {filteredBlogs.length} Results
                 </h2>
-                <ul className="grid grid-cols-4 gap-4">
+                <ul className="flex flex-col sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {filteredBlogs.map((blog) => (
                         <BlogCard post={blog} key={blog.id} />
                     ))}

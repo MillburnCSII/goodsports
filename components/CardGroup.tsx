@@ -32,7 +32,7 @@ export default function CardGroup(props: {
 
     return (
         <>
-            <div className="p-16">
+            <div className="p-10 sm:p-16">
                 <div className="flex justify-between items-end">
                     <div>
                         <h2>{props.subtitle}</h2>
