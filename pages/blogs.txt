@@ -24,7 +24,7 @@ export default function Blogs() {
             
             
             blogs.forEach(async (blog) => {
-                var id = blog.id;
+                const id = blog.id;
                 blog = blog.data();
                 
 
