@@ -68,35 +68,8 @@ export default function CardGroup(props: {
                         </div>
                     </div>
                     <div className="-m-4 p-4 lg:-m-16 lg:p-16 overflow-hidden">
-                        {/* DESKTOP VIEW */}
-                        {/* <div
-                className="lg:grid grid-cols-6 gap-8 mt-8 w-[200%] transition-all duration-500 lg:visible hidden"
-                style={style}
-            >
-                {props.data.map((cardData) => (
-                <props.card post={cardData} key={cardData.id} />
-                ))}
-            </div> */}
-                        {/* MOBILE VIEW */}
-                        {/* <div className="flex flex-col grid-cols-2 gap-8 mt-8 w-full transition-all duration-500 lg:hidden visible sm:grid">
-                {[props.data[0], props.data[1]].map((cardData) => (
-                <props.card post={cardData} key={cardData.id} />
-                ))}
-            </div> */}
                         <div className="blaze-track-container mt-8 -m-6 p-6">
                             <div className="blaze-track">
-                                {props.data.map((cardData) => (
-                                    <props.card
-                                        post={cardData}
-                                        key={cardData.id}
-                                    />
-                                ))}
-                                {props.data.map((cardData) => (
-                                    <props.card
-                                        post={cardData}
-                                        key={cardData.id}
-                                    />
-                                ))}
                                 {props.data.map((cardData) => (
                                     <props.card
                                         post={cardData}
