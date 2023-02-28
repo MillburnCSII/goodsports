@@ -165,12 +165,12 @@ export default function Post() {
                 </form>
 
                 <label
-                    className="rounded-full fixed bottom-4 right-4 z-20 p-2 mt-4 bg-primary text-white focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all cursor-pointer"
+                    className="flex gap-2 rounded-md fixed bottom-4 right-4 z-20 px-4 py-2 mt-4 bg-primary text-white focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all cursor-pointer"
                     htmlFor="file"
                 >
                     {/* <FolderPlusIcon className="w-6 h-6" /> */}
                     <PhotoIcon className="w-6 h-6" />
-                    <span className="sr-only">Upload Image</span>
+                    <span className="">Upload Image</span>
                 </label>
                 <input
                     type="file"
