@@ -61,9 +61,9 @@ export default function Home(props) {
 
     return (
         <>
-            {/* <Nav />
+            <Nav />
             <Hero />
-            <About /> */}
+            <About />
             <CardGroup /* BLOG */
                 title="Our Most Recent Blogs"
                 subtitle="Latest Blogs"
