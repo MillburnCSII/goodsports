@@ -6,6 +6,7 @@ import About from "../components/About.jsx";
 import CardGroup from "../components/CardGroup";
 import DonateCard from "../components/DonateCard";
 import BlogCard from "../components/BlogCard";
+import React from "react";
 
 interface goalProject {
     id: string;
@@ -60,21 +61,23 @@ export default function Home(props) {
 
     return (
         <>
-            <Nav />
+            {/* <Nav />
             <Hero />
-            <About />
+            <About /> */}
             <CardGroup /* BLOG */
                 title="Our Most Recent Blogs"
                 subtitle="Latest Blogs"
                 card={BlogCard}
                 data={props.blogData}
             />
-            { /* <CardGroup *//* DONATE *//*
+            {/* <CardGroup */
+            /* DONATE */
+            /*
                 title="Donate Now"
                 subtitle="Be a part of the Cause"
                 card={DonateCard}
                 data={props.donateData}
-            /> */ }
+            /> */}
         </>
     );
 }
