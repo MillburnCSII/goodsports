@@ -25,14 +25,14 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-full flex items-center p-16 lg:pl-0 lg:py-0">
-                    <div>
-                        <h1 className="text-3xl font-medium">About Us</h1>
-                        <h2 className="font-serif text-5xl mt-12">
+                <div className="w-full h-full flex items-center p-10 sm:p-16 lg:pl-0 lg:py-0">
+                    <div className="w-full">
+                        <h1 className="text-2xl sm:text-3xl font-medium">About Us</h1>
+                        <h2 className="font-serif text-4xl sm:text-5xl mt-12">
                             Supplying Underprivileged Kids The Sports They
                             Should Grow Up With.
                         </h2>
-                        <p className="text-gray-500 mt-24">
+                        <p className="text-gray-500 mt-12 sm:mt-24">
                             The secret to happiness lies in helping others.
                             Never underestimate the differnce you can make in
                             the lives of the poor, the abused, and the helpless

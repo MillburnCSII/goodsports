@@ -4,7 +4,7 @@ import Link from "next/link";
 import LogoCircle from "./logo-circle";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
-export default function Nav() {
+export default function Nav({ position = "fixed" }) {
     const socials: string[] = [
         "twitter",
         "facebook",
@@ -14,7 +14,9 @@ export default function Nav() {
     ];
 
     return (
-        <nav className="fixed top-0 left-0 w-screen bg-primary lg:px-40 py-4 flex items-center justify-between z-50 px-20">
+        <nav
+            className={`top-0 left-0 w-screen bg-primary lg:px-40 py-4 flex items-center justify-between z-50 px-20 ${position}`}
+        >
             <div className="flex items-center">
                 <Link
                     href="/#"

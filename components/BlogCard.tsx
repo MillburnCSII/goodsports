@@ -15,7 +15,6 @@ interface blogprops {
 }
 
 export default function BlogCard(props: { post: blogprops }) {
-
     const [date, setDate] = useState("Loading...");
 
     useEffect(() => {
@@ -33,7 +32,11 @@ export default function BlogCard(props: { post: blogprops }) {
             // BECAUSE FUCKING FIREFOX DOESN'T SUPPORT IT
             const regex = /(.+?([A-Z].)[\.|\?|\!](?:['")\\\s]?)+?\s?)/gim;
             const sentences = filtered.match(regex);
-            setSample(sentences[1] + sentences[2] ? sentences[2].slice(0, -3) : "" + "...");
+            setSample(
+                sentences[1] + sentences[2]
+                    ? sentences[2].slice(0, -3)
+                    : "" + "..."
+            );
         } else {
             segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
             const iterator1 = segmenter.segment(filtered)[Symbol.iterator]();
@@ -43,8 +46,8 @@ export default function BlogCard(props: { post: blogprops }) {
 
             setSample(
                 sentence2.value.segment +
-                sentence3.value.segment.slice(0, -3) +
-                "..."
+                    sentence3.value.segment.slice(0, -3) +
+                    "..."
             );
         }
     }, [sample, props.post.content]);
@@ -63,14 +66,14 @@ export default function BlogCard(props: { post: blogprops }) {
                 />
             </div>
             <div className="p-8 flex flex-col justify-between gap-4">
-                <div className="flex gap-2 flex-col">
+                <div className="flex gap-2 flex-col mb-2">
                     <div className="grid grid-cols-2 gap-4 text-gray-500 text-sm">
                         <div className="flex gap-2 items-start">
-                            <UserIcon className="h-6 w-6" />
+                            <UserIcon className="h-6 w-6 hidden sm:block" />
                             <h2>{props.post.author}</h2>
                         </div>
                         <div className="flex gap-2 items-start">
-                            <CalendarDaysIcon className="h-6 w-6" />
+                            <CalendarDaysIcon className="h-6 w-6 hidden sm:block" />
                             <h2>{date}</h2>
                         </div>
                     </div>
@@ -82,7 +85,10 @@ export default function BlogCard(props: { post: blogprops }) {
                     </p>
                 </div>
                 <div>
-                    <Link href={`/blogs/${props.post.id}`} className="border-primary text-primary border-2 rounded-md px-6 py-2 hover:bg-primary hover:text-white transition-all">
+                    <Link
+                        href={`/blogs/${props.post.id}`}
+                        className="border-primary text-primary border-2 rounded-md px-6 py-2 hover:bg-primary hover:text-white transition-all"
+                    >
                         Read More
                     </Link>
                 </div>

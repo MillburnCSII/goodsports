@@ -1,8 +1,10 @@
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import html from "remark-html";
-import { collection, getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
+import Nav from "../../components/Nav";
+import { useEffect, useState } from "react";
 
 interface postProps {
     data: dataProps | null;
@@ -12,21 +14,42 @@ interface postProps {
 interface dataProps {
     title: string;
     content: string;
+    date: number;
+    author: string;
 }
 
 export default function Post({ data, mdHTML }: postProps) {
+    const [date, setDate] = useState("Loading...");
+
+    useEffect(() => {
+        const dateObject = new Date(data.date);
+        setDate(dateObject.toDateString());
+    }, [data.date]);
+
     if (!data) {
-        return <h1>404</h1>;
+        return (
+            <>
+                <h1>404</h1>
+                <h2>Post not found.</h2>
+            </>
+        );
     }
 
-    console.log(mdHTML)
-    console.log(data)
+    console.log(mdHTML);
+    console.log(data);
 
     return (
         <>
+            <Nav position="sticky" />
             <main className="flex justify-center">
-                <article className="prose p-8 w-[80vw] !block">
-                    <h1>{data.title}</h1>
+                <article className="prose p-4 sm:p-8 w-[80vw] !block xl:!max-w-[90ch]">
+                    <h1 className="mb-0">{data.title}</h1>
+                    <h2 className="mt-4 md:text-xl text-lg sm:hidden">
+                        {data.author} <br /> {date}
+                    </h2>
+                    <h2 className="mt-4 sm:block hidden">
+                        {data.author} - {date}
+                    </h2>
                     <div dangerouslySetInnerHTML={{ __html: mdHTML }} />
                 </article>
             </main>

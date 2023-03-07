@@ -1,23 +1,25 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { auth, storage, db } from "../firebaseConfig.js";
+import { auth, db } from "../firebaseConfig.js";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, doc, Timestamp } from "firebase/firestore";
+import GenericInput from "../components/Generic/GenericInput";
+import GenericButton from "../components/Generic/GenericButton";
+import {
+    ArrowRightOnRectangleIcon,
+    PhotoIcon,
+} from "@heroicons/react/20/solid";
+import ImageUploadModal from "../components/ImageUpload";
+import Nav from "../components/Nav";
 
 interface blogPost {
     id: string;
     title: string;
-    description?: string;
+    description: string;
     image: string;
     author: string;
     date: Timestamp;
@@ -32,7 +34,7 @@ const MarkdownEditor = dynamic(
 export default function Post() {
     const router = useRouter();
     const [text, setText] = useState("");
-    const [file, setFile] = useState("");
+    const [files, setFiles] = useState([]);
     const [title, setTitle] = useState("");
     const [tldr, setTldr] = useState("");
     const [image, setImage] = useState("");
@@ -67,43 +69,6 @@ export default function Post() {
             });
     }
 
-    function uploadImage(e) {
-        e.preventDefault();
-        // get the name of the file
-        var x = file.name;
-        const storageRef = ref(storage, `/files/${x}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                switch (snapshot.state) {
-                    case "paused":
-                        console.log("Upload is paused");
-                        break;
-                    case "running":
-                        console.log("Upload is running");
-                        break;
-                }
-            },
-            (error) => {
-                console.error(error);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    navigator.clipboard
-                        .writeText(url)
-                        .then((res) =>
-                            alert("copied + " + url + " to clipboard")
-                        );
-                });
-            }
-        );
-    }
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -112,136 +77,117 @@ export default function Post() {
         });
     });
 
+    const updateFiles = async (e) => {
+        const files2 = Array.from(e.target.files);
+        console.log(files2);
+        await setFiles(files2);
+    };
+
     return (
-        <main className="p-8">
-            <button
-                onClick={() => {
-                    auth.signOut();
-                    router.push("/admin");
-                }}
-                className="absolute top-0 right-0 px-4 py-2 m-2 bg-primary text-white rounded-md focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all"
-            >
-                Log Out
-            </button>
-
-            <h1 className="text-2xl">Make A Post</h1>
-
-            <form onSubmit={uploadTask}>
-                <div className="grid grid-cols-[min-content,min-content] lg:flex gap-4 mb-8">
-                    <div>
-                        <label
-                            htmlFor="title"
-                            className="block text-sm font-medium text-gray-700 mt-2"
-                        >
-                            Title
-                        </label>
-                        <div className="mt-1">
-                            <input
-                                name="title"
-                                placeholder="Enter post title"
-                                type="text"
-                                onChange={(e) => setTitle(e.target.value)}
-                                required={true}
-                                className="shadow-sm focus-visible:outline-none px-3 py-2 border sm:text-sm border-gray-300 rounded-md"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="author"
-                            className="block text-sm font-medium text-gray-700 mt-2"
-                        >
-                            Author
-                        </label>
-                        <div className="mt-1">
-                            <input
-                                name="author"
-                                placeholder="Enter the author name"
-                                type="text"
-                                onChange={(e) => setAuthor(e.target.value)}
-                                required={true}
-                                className="shadow-sm focus-visible:outline-none px-3 py-2 border sm:text-sm border-gray-300 rounded-md"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="summary"
-                            className="block text-sm font-medium text-gray-700 mt-2"
-                        >
-                            Summary (optional)
-                        </label>
-                        <div className="mt-1">
-                            <input
-                                name="summary"
-                                placeholder="Enter short summary"
-                                type="text"
-                                onChange={(e) => setTldr(e.target.value)}
-                                className="shadow-sm focus-visible:outline-none px-3 py-2 border sm:text-sm border-gray-300 rounded-md"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="image"
-                            className="block text-sm font-medium text-gray-700 mt-2"
-                        >
-                            Cover Image
-                        </label>
-                        <div className="mt-1">
-                            <input
-                                name="image"
-                                placeholder="Enter cover image url"
-                                type="text"
-                                onChange={(e) => setImage(e.target.value)}
-                                required={true}
-                                className="shadow-sm focus-visible:outline-none px-3 py-2 border sm:text-sm border-gray-300 rounded-md"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <MarkdownEditor
-                    value={text}
-                    onChange={(e) => {setText(e); console.log(e)}}
-                    data-color-mode="light"
-                    textareaProps={{
-                        placeholder: "Write the body of your post here!",
-                    }}
-                    height={500}
-                />
-
+        <>
+            <Nav position="sticky" />
+            <main className="p-8">
                 <button
-                    type="submit"
-                    className="px-4 py-2 mt-4 bg-primary text-white rounded-md focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all"
+                    onClick={() => {
+                        auth.signOut();
+                        router.push("/admin");
+                    }}
+                    className="fixed top-28 right-4 px-4 py-2 bg-primary text-white rounded-md focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all flex gap-2"
                 >
-                    Submit
+                    <ArrowRightOnRectangleIcon className="w-6 h-6" />
+                    Log Out
                 </button>
-            </form>
 
-            <hr className="my-8" />
+                <h1 className="text-2xl">Make A Post</h1>
 
-            <h1 className="text-2xl">Upload a Image</h1>
-            <form onSubmit={uploadImage} className="flex flex-col items-start">
+                <form onSubmit={uploadTask}>
+                    <div className="flex gap-4 my-4 md:flex-row flex-col">
+                        <GenericInput
+                            label="Title"
+                            value={title}
+                            onChange={setTitle}
+                            placeholder="Enter post title"
+                            required={true}
+                        />
+                        <GenericInput
+                            label="Author"
+                            value={author}
+                            onChange={setAuthor}
+                            placeholder="Enter the author name"
+                            required={true}
+                        />
+                        <GenericInput
+                            label="Cover Image"
+                            value={image}
+                            onChange={setImage}
+                            placeholder="Enter cover image url"
+                            required={true}
+                        />
+                    </div>
+                    <div className="mt-4 mb-8">
+                        <div className="flex justify-between">
+                            <label
+                                htmlFor="Summary"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Summary
+                            </label>
+                            {/* <span className="text-sm text-gray-500">
+                                Optional
+                            </span> */}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                rows={4}
+                                name="Summary"
+                                id="Summary"
+                                className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
+                                value={tldr}
+                                onChange={(e) => setTldr(e.target.value)}
+                                placeholder="Enter a short summary of the post"
+                                required={true}
+                            />
+                        </div>
+                    </div>
+                    <MarkdownEditor
+                        value={text}
+                        onChange={(e) => {
+                            setText(e);
+                            console.log(e);
+                        }}
+                        data-color-mode="light"
+                        textareaProps={{
+                            placeholder: "Write the body of your post here!",
+                        }}
+                        height={400}
+                    />
+                    <GenericButton type="submit">Submit</GenericButton>
+                </form>
+
                 <label
+                    className="flex gap-2 rounded-md fixed bottom-4 right-4 z-20 px-4 py-2 mt-4 bg-primary text-white focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all cursor-pointer"
                     htmlFor="file"
-                    className="text-sm font-medium text-gray-700 mt-2 underline cursor-pointer underline-offset-2"
                 >
-                    Upload File
+                    {/* <FolderPlusIcon className="w-6 h-6" /> */}
+                    <PhotoIcon className="w-6 h-6" />
+                    <span className="">Upload Image</span>
                 </label>
                 <input
                     type="file"
-                    onChange={(e) => setFile(e.target.files[0])}
+                    id="file"
+                    multiple
+                    accept="image/*"
+                    onChange={updateFiles}
                     className="sr-only"
                     name="file"
-                    id="file"
                 />
-                <button
-                    type="submit"
-                    className="px-4 py-2 mt-4 bg-primary text-white rounded-md focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all"
-                >
-                    Upload
-                </button>
-            </form>
-        </main>
+
+                <ImageUploadModal files={files} setFiles={setFiles} />
+
+                {/* <span className="hidden" ref={ref}>
+                {def}
+            </span> */}
+            </main>
+        </>
     );
 }

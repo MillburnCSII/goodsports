@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import GenericButton from "./Generic/GenericButton";
 
 export default function CardGroup(props: {
     title: string;
@@ -7,7 +8,6 @@ export default function CardGroup(props: {
     data: any;
     card: any;
 }) {
-
     const [offset, setOffset] = useState(0);
     const [style, setStyle] = useState({
         transform: `translateX(${offset}%)`,
@@ -18,7 +18,7 @@ export default function CardGroup(props: {
     const step = (1 / 6) * 100;
 
     const handleIncrement = () => {
-        const cap = step*(props.data.length - 3);
+        const cap = step * (props.data.length - 3);
         if (offset >= cap) return alert("over!");
         setOffset(offset + step);
         setStyle({ transform: `translateX(${-(offset + step)}%)` });
@@ -32,7 +32,7 @@ export default function CardGroup(props: {
 
     return (
         <>
-            <div className="p-16">
+            <div className="p-10 sm:p-16">
                 <div className="flex justify-between items-end">
                     <div>
                         <h2>{props.subtitle}</h2>
@@ -41,20 +41,20 @@ export default function CardGroup(props: {
                         </h1>
                     </div>
                     <div className="lg:flex gap-4 hidden">
-                        <button
-                            className="bg-primary text-secondary h-12 w-12 rounded-full focus-within:ring-primary focus-within:ring-2 focus-within:ring-offset-2 transition-all p-2 flex justify-center items-center  disabled:bg-gray-500 disabled:text-gray-300"
+                        <GenericButton
+                            className="!h-12 !w-12 !p-2 !rounded-full !text-secondary !flex !justify-center !items-center !m-0 disabled:!text-gray-300"
                             onClick={handleDecrement}
                             disabled={offset <= 0}
                         >
                             <ChevronLeftIcon />
-                        </button>
-                        <button
-                            className="bg-primary text-secondary h-12 w-12 rounded-full focus-within:ring-primary focus-within:ring-2 focus-within:ring-offset-2 transition-all p-2 flex justify-center items-center  disabled:bg-gray-500 disabled:text-gray-300"
+                        </GenericButton>
+                        <GenericButton
+                            className="!h-12 !w-12 !p-2 !rounded-full !text-secondary !flex !justify-center !items-center !m-0 disabled:!text-gray-300"
                             onClick={handleIncrement}
-                            disabled={offset >= step*(props.data.length - 3)}
+                            disabled={offset >= step * (props.data.length - 3)}
                         >
                             <ChevronRightIcon />
-                        </button>
+                        </GenericButton>
                     </div>
                 </div>
                 <div className="-m-2 p-2 lg:-m-16 lg:p-16 overflow-hidden">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GenericButton from "./Generic/GenericButton";
 
 interface goalpost {
     id: number;
@@ -54,9 +55,9 @@ export default function DonateCard(props: { post: goalpost }) {
                             %
                         </p>
                     </div>
-                    <button className="border-primary text-primary border-2 rounded-full mx-auto block px-6 py-2 hover:bg-primary hover:text-white focus-within:bg-primary focus-within:text-white focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all mt-6">
+                    <GenericButton className="border-primary !text-primary !border-2 !rounded-full !bg-transparent hover:!bg-primary hover:!text-white mx-auto block px-6 mt-6">
                         Donate Now
-                    </button>
+                    </GenericButton>
                 </div>
             </div>
         </div>
